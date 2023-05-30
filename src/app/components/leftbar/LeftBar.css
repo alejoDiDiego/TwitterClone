@@ -1,0 +1,32 @@
+.nav{
+    height: calc(100% - 80px);
+    width: 80%;
+    left: -100%;
+    background-color: white;
+    position: absolute;
+    transition: all .5s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.nav.active{
+    width: 80%;
+    left: 0;
+}
+
+
+@media(min-width: 768px){
+    .nav{
+        height: calc(100% - 80px);
+        width: 300px;
+        background-color: white;
+        transition: all .5s;
+    }
+
+    .nav.active{
+        width: 300px;
+    }
+}
