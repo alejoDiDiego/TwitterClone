@@ -1,5 +1,5 @@
 import { ErrorMessage, Formik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import { useStore } from "../../stores/store";
 import * as Yup from "yup";
 import TextInput from "../common/form/TextInput";
@@ -10,6 +10,7 @@ import { router } from "../../router/Routes";
 
 const LoginForm = () => {
   const { userStore } = useStore();
+  const [showPassword, setShowPassword] = useState(false);
   return (
     <Formik
       initialValues={{
@@ -32,7 +33,19 @@ const LoginForm = () => {
           autoComplete="off"
         >
           <TextInput placeholder="Email" name="emailOrUsername" />
-          <TextInput placeholder="Password" name="password" />
+          <div className="relative">
+            <TextInput
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              name="password"
+            />
+            <i
+              onClick={() => setShowPassword(!showPassword)}
+              className={`absolute cursor-pointer right-2 top-[6px] text-2xl fa-solid ${
+                showPassword ? "fa-eye right-[9.5px]" : "fa-eye-slash"
+              }`}
+            ></i>
+          </div>
           {errors.error && <ValidationError errors={errors.error} />}
           <button
             disabled={isSubmitting || !isValid}

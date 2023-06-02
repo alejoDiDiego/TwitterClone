@@ -9,8 +9,13 @@ import "./App.css";
 import Home from "./app/components/home/Home";
 import { router } from "./app/router/Routes";
 
+// Pocketbase admin
 // alejoh2014@gmail.com
 // 1234567890
+
+// Run the program
+// npm run dev
+// pocketbase serve
 
 function App() {
   const { postStore, globalStore, userStore } = useStore();
