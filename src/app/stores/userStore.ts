@@ -1,6 +1,8 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 import User from "../models/User";
 import pb from "../pocketbase/pb";
+import { router } from "../router/Routes";
+import toast from "react-hot-toast";
 
 export default class UserStore {
   user: User | null = null;
@@ -19,8 +21,9 @@ export default class UserStore {
   };
 
   authenticate = () => {
+    this.setLoadingUser(true);
     if (pb.authStore.isValid) {
-      const u: User = {
+      this.user = {
         id: pb.authStore.model!.id,
         email: pb.authStore.model!.email,
         avatar: pb.authStore.model!.avatar,
@@ -28,11 +31,67 @@ export default class UserStore {
         created: pb.authStore.model!.created,
         username: pb.authStore.model!.username,
       };
-      this.user = u;
+      console.log(this.user);
       this.setLoadingUser(false);
       return;
     }
     this.setLoadingUser(false);
-    // this.setLoadingUser(false);
+  };
+
+  login = async (values: { emailOrUsername: string; password: string }) => {
+    try {
+      const user = await pb
+        .collection("users")
+        .authWithPassword(values.emailOrUsername, values.password)
+        .catch((e) => {
+          throw e;
+        });
+      runInAction(() => {
+        console.log(user);
+        this.authenticate();
+        toast.success("Logged in successfully");
+        router.navigate("/");
+      });
+    } catch (e) {
+      runInAction(() => {
+        console.log(e);
+        throw e;
+      });
+    }
+  };
+
+  register = async (values: {
+    name: string;
+    email: string;
+    password: string;
+    passwordConfirm: string;
+    username: string;
+  }) => {
+    try {
+      const user = await pb
+        .collection("users")
+        .create(values)
+        .catch((e) => {
+          throw e;
+        });
+      toast.success("Registered successfully");
+      runInAction(
+        async () =>
+          await this.login({
+            emailOrUsername: values.email,
+            password: values.password,
+          })
+      );
+    } catch (e) {
+      runInAction(() => {
+        throw e;
+      });
+    }
+  };
+
+  logout = () => {
+    pb.authStore.clear();
+    this.authenticate();
+    router.navigate(0);
   };
 }
