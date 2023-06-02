@@ -46,10 +46,10 @@ function App() {
 
       {isLoggedIn ? (
         <>
-          <nav className="h-20  flex items-center justify-center md:justify-start md:ml-[100px] ">
+          <nav className="h-20  flex items-center justify-center md:justify-start  ">
             <h2
               onClick={() => router.navigate("/")}
-              className="text-4xl font-bold text-blue-400 cursor-pointer transition-all hover:text-white active:text-white"
+              className="text-4xl font-bold text-blue-400 cursor-pointer transition-all hover:text-white active:text-white md:ml-[100px] md:active:text-blue-400"
             >
               Faketter
             </h2>
