@@ -10,7 +10,7 @@ const LeftBar = () => {
   const { logout, user } = userStore;
 
   return (
-    <div className={`nav ${open ? "active" : ""}`}>
+    <div className={`nav shadow-lg shadow-white ${open ? "active" : ""}`}>
       <ul
         className="
       flex flex-col items-center justify-between gap-5 
