@@ -14,7 +14,9 @@ export default function TextInput(props: Props) {
     <div className="flex flex-col">
       <label>{props.label}</label>
       <input
-        className="border-2 border-none rounded-md py-2 px-3 font-semibold focus:outline-none focus:shadow-outline text-lg"
+        className="border-2 border-none rounded-md py-2 px-3 font-semibold focus:outline-none focus:shadow-outline text-lg pointer-events-auto
+
+        "
         {...field}
         {...props}
       />

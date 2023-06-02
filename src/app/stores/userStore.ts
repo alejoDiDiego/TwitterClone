@@ -74,6 +74,7 @@ export default class UserStore {
         .catch((e) => {
           throw e;
         });
+
       toast.success("Registered successfully");
       runInAction(
         async () =>

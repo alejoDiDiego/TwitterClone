@@ -7,7 +7,7 @@ const LeftBar = () => {
 
   const { open, toggleOpen } = globalStore;
 
-  const { logout } = userStore;
+  const { logout, user } = userStore;
 
   return (
     <div className={`nav ${open ? "active" : ""}`}>
@@ -30,7 +30,7 @@ const LeftBar = () => {
         active:bg-blue-400
         "
         >
-          Fakear
+          Fake
         </li>
         <li className="bg-black h-1 w-[90%] rounded-lg"></li>
         <li
@@ -44,7 +44,7 @@ const LeftBar = () => {
         active:bg-blue-400
         "
         >
-          Mis Publicaciones
+          My Fakes
         </li>
         <li className="bg-black h-1 w-[90%] rounded-lg"></li>
         <li
@@ -58,7 +58,7 @@ const LeftBar = () => {
         active:bg-blue-400
         "
         >
-          Mis Likes
+          My Likes
         </li>
         <li className="bg-black h-1 w-[90%] rounded-lg"></li>
         <li
@@ -72,14 +72,40 @@ const LeftBar = () => {
         active:bg-blue-400
         "
         >
-          Mis Comentarios
+          My Comments
+        </li>
+
+        <li className="bg-black h-1 w-[90%] rounded-lg"></li>
+        <li
+          className=" 
+        transition-all duration-200 
+        cursor-pointer 
+        hover:bg-black
+        hover:text-white 
+        hover:px-3
+        hover:rounded-lg
+        active:bg-blue-400
+        "
+        >
+          Followed
         </li>
       </ul>
       <div className="flex items-center justify-around w-[90%] mb-10">
-        <i className="fa-solid fa-gear text-4xl text-gray-700 transition duration-200  active:rotate-90 cursor-pointer"></i>
+        {/* <i className="fa-solid fa-gear text-4xl text-gray-700 transition duration-200  active:rotate-90 cursor-pointer"></i> */}
+        <div>
+          <img
+            className="w-14 rounded-full transition-all hover:opacity-75 cursor-pointer "
+            src={
+              user?.avatar.length == 0
+                ? "https://ronaldmottram.co.nz/wp-content/uploads/2019/01/default-user-icon-8.jpg"
+                : user?.avatar
+            }
+          />
+          <p className="text-center font-semibold mt-2">@{user?.username}</p>
+        </div>
         <i
           onClick={() => logout()}
-          className="fa-solid fa-right-from-bracket transition duration-200 text-4xl text-red-600 md:hover:scale-110 active:scale-110 md:active:scale-100 cursor-pointer"
+          className="fa-solid fa-right-from-bracket transition duration-200 text-5xl text-red-600 md:hover:scale-110 active:scale-110 md:active:scale-100 cursor-pointer"
         ></i>
       </div>
     </div>

@@ -46,8 +46,13 @@ function App() {
 
       {isLoggedIn ? (
         <>
-          <nav className=" h-20 flex items-center justify-center">
-            <h2 className="text-4xl font-bold text-blue-400 ">Faketter</h2>
+          <nav className="h-20  flex items-center justify-center md:justify-start md:ml-[100px] ">
+            <h2
+              onClick={() => router.navigate("/")}
+              className="text-4xl font-bold text-blue-400 cursor-pointer transition-all hover:text-white active:text-white"
+            >
+              Faketter
+            </h2>
           </nav>
           <div className="container">
             <i
