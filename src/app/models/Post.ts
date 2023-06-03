@@ -3,5 +3,6 @@ export default interface Post {
   created: string;
   creatorId: string;
   content: string;
-  images: string[];
+  media: string[] | null;
+  postId: string | null;
 }
