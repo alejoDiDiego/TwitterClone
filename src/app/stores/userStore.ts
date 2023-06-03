@@ -30,6 +30,8 @@ export default class UserStore {
         name: pb.authStore.model!.name,
         created: pb.authStore.model!.created,
         username: pb.authStore.model!.username,
+        followed: pb.authStore.model!.followed,
+        followers: pb.authStore.model!.followers,
       };
       console.log(this.user);
       this.setLoadingUser(false);

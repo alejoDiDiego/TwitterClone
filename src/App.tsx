@@ -49,7 +49,7 @@ function App() {
           <nav className="h-20  flex items-center justify-center md:justify-start shadow-md shadow-black ">
             <h2
               onClick={() => router.navigate("/")}
-              className="text-4xl font-bold text-blue-400 cursor-pointer transition-all hover:text-white active:text-white md:ml-[100px] md:active:text-blue-400"
+              className="text-4xl font-bold text-blue-400 cursor-pointer transition-all hover:text-white active:text-white md:ml-[100px] md:active:text-blue-400 notSelectable"
             >
               Faketter
             </h2>
@@ -64,16 +64,18 @@ function App() {
               }`}
             ></i>
             <LeftBar />
-            <Outlet />
+            <div className="md:ml-[350px]">
+              <Outlet />
+            </div>
           </div>
         </>
       ) : loc.pathname === "/" ? (
         <Home />
       ) : (
         <div>
-          <nav className=" h-20 flex items-center justify-center">
+          <nav className=" h-20 flex items-center justify-center faketter">
             <a
-              className="text-4xl font-bold text-blue-400 cursor-pointer transition-all duration-200 hover:text-white"
+              className="text-4xl font-bold text-blue-400 cursor-pointer transition-all duration-200 hover:text-white notSelectable"
               onClick={() => router.navigate("/")}
             >
               Faketter

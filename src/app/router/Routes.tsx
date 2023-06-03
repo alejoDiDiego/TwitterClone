@@ -5,6 +5,7 @@ import RequireAuth from "./RequireAuth";
 import RequireNoAuth from "./RequireNoAuth";
 import Register from "../components/register/Register";
 import Login from "../components/login/Login";
+import Profile from "../components/profile/Profile";
 
 export const routes: RouteObject[] = [
   {
@@ -12,8 +13,8 @@ export const routes: RouteObject[] = [
     element: <App />,
     children: [
       {
-        // element: <RequireAuth />,
-        // children: [{ path: "home", element: <Home /> }],
+        element: <RequireAuth />,
+        children: [{ path: "profile", element: <Profile /> }],
       },
       {
         element: <RequireNoAuth />,

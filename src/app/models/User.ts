@@ -5,4 +5,6 @@ export default interface User {
   name: string;
   username: string;
   avatar: string;
+  followers: number;
+  followed: number;
 }
