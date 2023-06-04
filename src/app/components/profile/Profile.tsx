@@ -1,12 +1,22 @@
 import { observer } from "mobx-react-lite";
 import React, { useEffect, useState } from "react";
 import { useStore } from "../../stores/store";
+import Posts from "./userPosts/Posts";
 
 const Profile = () => {
   console.log("profile");
   const { postStore, globalStore, userStore } = useStore();
 
   const { logout, user } = userStore;
+
+  const { getPosts, userPostList } = userStore;
+
+  const [min, setMin] = useState(1);
+  const [max, setMax] = useState(10);
+
+  useEffect(() => {
+    getPosts(min, max);
+  }, []);
 
   const [seeFakes, setSeeFakes] = useState(true);
   const [seReFakes, setSeeReFakes] = useState(false);
@@ -74,6 +84,18 @@ const Profile = () => {
         >
           Likes
         </button>
+      </div>
+
+      <div className="mx-10 mt-5">
+        {seeFakes ? (
+          <>
+            {userPostList.forEach((p) => {
+              return <p>{p.id}</p>;
+            })}
+          </>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

@@ -3,10 +3,12 @@ import User from "../models/User";
 import pb from "../pocketbase/pb";
 import { router } from "../router/Routes";
 import toast from "react-hot-toast";
+import Post from "../models/Post";
 
 export default class UserStore {
   user: User | null = null;
   loadingUser = true;
+  userPostList = new Map<string, Post>();
 
   constructor() {
     makeAutoObservable(this);
@@ -96,5 +98,31 @@ export default class UserStore {
     pb.authStore.clear();
     this.authenticate();
     router.navigate(0);
+  };
+
+  getPosts = async (min: number, max: number) => {
+    try {
+      const posts = await pb.collection("posts").getList(min, max, {
+        filter: `creatorId = "${this.user?.id}"`,
+        sort: "-created",
+      });
+      runInAction(() => {
+        posts.items.forEach((p) => {
+          this.userPostList.set(p.id, {
+            id: p.id,
+            content: p.content,
+            created: p.created,
+            creatorId: p.creatorId,
+            media: p.media,
+            postId: p.postId,
+          });
+        });
+
+        console.log(posts);
+        console.log(this.userPostList);
+      });
+    } catch (e) {
+      throw e;
+    }
   };
 }
