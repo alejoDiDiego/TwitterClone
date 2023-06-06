@@ -100,12 +100,14 @@ export default class UserStore {
     router.navigate(0);
   };
 
-  getPosts = async (min: number, max: number) => {
+  getPosts = async (lastMax: number) => {
     try {
-      const posts = await pb.collection("posts").getList(min, max, {
-        filter: `creatorId = "${this.user?.id}"`,
-        sort: "-created",
-      });
+      const posts = await pb
+        .collection("posts")
+        .getList(lastMax, lastMax + 10, {
+          filter: `creatorId = "${this.user?.id}"`,
+          sort: "-created",
+        });
       runInAction(() => {
         posts.items.forEach((p) => {
           this.userPostList.set(p.id, {
@@ -121,6 +123,7 @@ export default class UserStore {
         console.log(posts);
         console.log(this.userPostList);
       });
+      return lastMax + 10;
     } catch (e) {
       throw e;
     }

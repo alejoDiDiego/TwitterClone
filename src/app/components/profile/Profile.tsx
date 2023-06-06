@@ -4,23 +4,30 @@ import { useStore } from "../../stores/store";
 import Posts from "./userPosts/Posts";
 
 const Profile = () => {
+  const [seeFakes, setSeeFakes] = useState(true);
+  const [seReFakes, setSeeReFakes] = useState(false);
+  const [seeLikes, setSeeLikes] = useState(false);
+
+  const [loading, setLoading] = useState(true);
+
   console.log("profile");
+
   const { postStore, globalStore, userStore } = useStore();
 
   const { logout, user } = userStore;
 
   const { getPosts, userPostList } = userStore;
 
-  const [min, setMin] = useState(1);
-  const [max, setMax] = useState(10);
+  const [lastMax, setLastMax] = useState(10);
 
   useEffect(() => {
-    getPosts(min, max);
+    const getThings = async () => {
+      const max = await getPosts(lastMax);
+      setLastMax(max);
+      setLoading(false);
+    };
+    getThings();
   }, []);
-
-  const [seeFakes, setSeeFakes] = useState(true);
-  const [seReFakes, setSeeReFakes] = useState(false);
-  const [seeLikes, setSeeLikes] = useState(false);
 
   const modal = (change: string) => {
     if (change === "fakes") {
@@ -86,17 +93,20 @@ const Profile = () => {
         </button>
       </div>
 
-      <div className="mx-10 mt-5">
-        {seeFakes ? (
-          <>
-            {userPostList.forEach((p) => {
-              return <p>{p.id}</p>;
-            })}
-          </>
-        ) : (
-          <></>
-        )}
-      </div>
+      {loading ? (
+        <p>Loading</p>
+      ) : (
+        <div className="mx-10 mt-5">
+          {seeFakes ? (
+            <>
+              {/* <Posts min={min} max={max} setMin={setMin} setMax={setMax} /> */}
+              <Posts />
+            </>
+          ) : (
+            <></>
+          )}
+        </div>
+      )}
     </div>
   );
 };
