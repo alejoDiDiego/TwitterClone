@@ -5,9 +5,12 @@ import { ErrorMessage, Formik } from "formik";
 import TextInput from "../common/form/TextInput";
 import ValidationError from "../common/form/ValidationError";
 import { useRouter } from "next/navigation";
+import useStore from "@/store/useStore";
 
 const Form = () => {
+  const { register } = useStore();
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
   const router = useRouter();
   return (
     <Formik
@@ -15,6 +18,8 @@ const Form = () => {
         email: "",
         password: "",
         passwordConfirm: "",
+        username: "",
+        publicName: "",
       }}
       validationSchema={Yup.object({
         email: Yup.string()
@@ -28,16 +33,33 @@ const Form = () => {
           .oneOf([Yup.ref("password"), undefined], "Passwords must match"),
       })}
       onSubmit={(values, { setErrors }) => {
-        console.log(values);
-        return;
+        register(
+          values.email,
+          values.password,
+          values.username,
+          values.publicName
+        )
+          .then((r) => console.log(r))
+          .catch((err) => {
+            setError(err["message"]);
+          });
       }}
     >
       {({ handleSubmit, isSubmitting, errors, isValid, dirty }) => (
-        <form onSubmit={handleSubmit}>
+        <form
+          className="flex flex-col mx-auto gap-3 mt-6 w-[80%] text-black"
+          onSubmit={handleSubmit}
+        >
           <TextInput
             label="Email"
             placeholder="Email (min 8 characters)"
             name="email"
+          />
+          <TextInput label="Username" placeholder="Username" name="username" />
+          <TextInput
+            label="Public Name"
+            placeholder="@john"
+            name="publicName"
           />
           <div className="relative">
             <TextInput
@@ -48,7 +70,7 @@ const Form = () => {
             />
             <i
               onClick={() => setShowPassword(!showPassword)}
-              className={`absolute cursor-pointer right-2 top-[6px] text-2xl fa-solid ${
+              className={`absolute cursor-pointer right-2 top-[34px] text-2xl fa-solid ${
                 showPassword ? "fa-eye right-[9.5px]" : "fa-eye-slash"
               }`}
             ></i>
@@ -63,13 +85,17 @@ const Form = () => {
             />
             <i
               onClick={() => setShowPassword(!showPassword)}
-              className={`absolute cursor-pointer right-2 top-[6px] text-2xl fa-solid ${
+              className={`absolute cursor-pointer right-2 top-[34px] text-2xl fa-solid ${
                 showPassword ? "fa-eye right-[9.5px]" : "fa-eye-slash"
               }`}
             ></i>
           </div>
 
-          {errors.error && <ValidationError errors={errors.error} />}
+          {error.length > 0 ? (
+            <p className="text-red-700 font-bold break-words mb-3 mx-auto">
+              {error}
+            </p>
+          ) : null}
           <button
             // disabled={isSubmitting || !isValid}
             type="submit"

@@ -8,6 +8,12 @@ const createCommonSlice: StateCreator<ICommon> = (set, get) => ({
       open: !state.open,
     }));
   },
+  loading: true,
+  toggleLoading() {
+    set((state) => ({
+      loading: !state.loading,
+    }));
+  },
 });
 
 export default createCommonSlice;

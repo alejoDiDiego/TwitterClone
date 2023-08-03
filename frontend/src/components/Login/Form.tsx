@@ -29,7 +29,10 @@ const Form = () => {
       }}
     >
       {({ handleSubmit, isSubmitting, errors, isValid, dirty }) => (
-        <form onSubmit={handleSubmit}>
+        <form
+          className="flex flex-col mx-auto gap-3 mt-6 w-[80%] text-black"
+          onSubmit={handleSubmit}
+        >
           <TextInput
             label="Email"
             placeholder="Email (min 8 characters)"
@@ -44,7 +47,7 @@ const Form = () => {
             />
             <i
               onClick={() => setShowPassword(!showPassword)}
-              className={`absolute cursor-pointer right-2 top-[6px] text-2xl fa-solid ${
+              className={`absolute cursor-pointer right-2 top-[34px] text-2xl fa-solid ${
                 showPassword ? "fa-eye right-[9.5px]" : "fa-eye-slash"
               }`}
             ></i>
